@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Show all weigths</title>
+		<script src="jquery.js"></script>
+		<link rel="stylesheet" href="style2.css">
+		<style>
+
+			</style>
+	</head>
+	<body>
+		<div id="records"></div>
+		<script>
+
+
+			function visualizza(che){
+				alert("va visualizza " + che);
+				var enter = $("#1").val();
+				var exit = $("#2").val();
+				var weight1 = $("#3").val();
+				var weight2 = $("#4").val();
+				var company = $("#5").val();
+				var note = $("#6").val();
+				var targa = $("#7").val();
+				var weight3 = $("#8").val();
+				$.ajax({
+					method: "POST",
+					url: "dataupdate.php",
+					data: {enter: enter, exit: exit, 
+						weight1: weight1, 
+						weight2: weight2,
+						company: company,
+						note: note,
+						targa: targa,
+						whattaid: che
+					}
+				}).done(function(dataedit){
+					alert(dataedit);
+				})
+			}
+			function deleterecord(wichrecord){
+					$.ajax({
+						method: "POST",
+						url: "deleterow.php",
+						data:{whichid: wichrecord}
+
+					}).done(function(data){
+						alert(data);
+						location.reload();
+					});
+						
+					
+			}
+			function showalert(whatta){
+				alert("va showalert" + whatta);
+
+					$.ajax({
+
+						method: "POST",
+						url:"singlerecord.php",
+						data: {whattaid: whatta},
+					}).done(function(datirow){
+
+
+
+						
+						var datipresi = jQuery.parseJSON(datirow);
+						
+						$("#onerow").html(
+							"<table id='onerowtab'><tr><td><input type='number' id='idfield' value='" +
+							datipresi[0] +  "' disabled /></td><td><input type='text' id='1' class='time' value='" + datipresi[1] + "'/></td><td><input type='text' id='2' class='time' value='" + datipresi[2]
+							+ "'/></td><td><input type='text' id='3' class='weight' value='" +
+						+ datipresi[3] + "'/></td><td><input type='text' id='4' class='weight' value='" + datipresi[4] + "'/></td><td><input type='text' id='5' value='" + datipresi[5]  + "'/></td><td><input type='text' id='6' class='note' value='" + datipresi[6]
+							+ "'/></td><td><input type='text' id='7' class='targa' value='" + datipresi[7]  + "'/></td><td><input type='text' id='8' class='weight' value='" +  datipresi[8] +
+						"'/></td><td><button onclick = visualizza('" + datipresi[0] + "')>SAVE IT</button></td></tr></table>"
+						);
+									/* ############### linee guida:
+									## inserire campi form per potere modificare questa riga
+									direttamente qui senza aprire altra pagina.
+									magari provare anche versioning con git. ##########
+									#################################### */
+					});
+				}
+			$(document).ready(function(){
+				$.ajax({
+					method: "POST",
+					url: "getdata.php",
+				}).done(function(data){
+				var result= $.parseJSON(data);
+        var string='<table class="wtable"><tr><th>ID</th><th>ENTER TIME</th><th>EXIT TIME</th><th>FIRST WEIGHT</th><th>LAST WEIGHT</th><th>COMPANY NAME</th><th>NOTE</th><th>COUNTRY NUMBER</th><th>RESULTED WEIGHT</th><tr>';
+
+       /* from result create a string of data and append to the div */
+
+        $.each( result, function( key, value ) {
+
+          string += "<tr><td>" + value[0] + "</td><td>"+ value[1] + "</td><td>" + value[2] + "</td><td>" + value[3] + "</td><td>" + value[4] + "</td><td>" + value[5] + "</td><td>" + value[6] + "</td><td>" + value[7] + "</td><td>" + value[8] + "</td><td><button onclick = showalert('" + value[0] + "')>EDIT</button></td><td><button onclick = deleterecord('" + value[0] + "')>DELETE</button></td></tr>";
+              });
+             string += '</table>';
+          $("#records").html(string);
+				});
+			});
+		</script>
+		<div id="onerow">prova qui</div>
+	</body>
+</html>

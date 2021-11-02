@@ -1,0 +1,34 @@
+<html>
+	<head>
+		<script src="jquery.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/1.0.10/datepicker.min.js" integrity="sha512-RCgrAvvoLpP7KVgTkTctrUdv7C6t7Un3p1iaoPr1++3pybCyCsCZZN7QEHMZTcJTmcJ7jzexTO+eFpHk4OCFAg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	</head>
+	<body>
+		<script>
+		$(document).ready(function(){
+		alert("sti cazzi");
+		$( "#datepicker" ).datepicker({
+changeMonth: true,
+changeYear: true,
+yearRange: '1900:2017',
+closeText: 'Chiudi',
+prevText: 'Prec',
+nextText: 'Succ',
+currentText: 'Oggi',
+monthNames: ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno', 'Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'],
+monthNamesShort: ['Gen','Feb','Mar','Apr','Mag','Giu', 'Lug','Ago','Set','Ott','Nov','Dic'],
+dayNames: ['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'],
+dayNamesShort: ['Dom','Lun','Mar','Mer','Gio','Ven','Sab'],
+dayNamesMin: ['Do','Lu','Ma','Me','Gio','Ve','Sa'],
+dateFormat: 'dd/mm/yy',
+firstDay: 1,
+isRTL: false
+});
+
+$.datepicker.setDefaults($.datepicker.regional['it']);
+} );
+  });
+		</script>
+		<div id="datepicker"></div>
+	</body>
+</html>

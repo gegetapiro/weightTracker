@@ -1,0 +1,57 @@
+	.wtable {
+		width: 100%;
+	}
+
+	.wtable tr td {
+		border-Style: solid;
+		border-width: 2px;
+		boder-color: black;
+	}
+
+	.wtable th {
+		background: #00ffff;
+		border-Style: solid;
+		border-width: 3px;
+		boder-color: #008080;
+	}
+
+	tr:nth-child(even) {
+		background: #CCCCCC;
+	}
+
+	/* #onerow {
+		width: 600px;
+		height: 300px; 
+		border-style: solid;
+		border-width: 3px;
+		border-color: black;
+	}*/
+
+	/* #onerowtab {
+		border-style: solid;
+		border-width: 2px;
+		border-color: black;
+	} */
+
+	#onerowtab tr td {
+		border-style: solid;
+		border-width: 1px;
+		border-color: black;
+		padding: 6px;
+		padding: 3px;
+	}
+	#idfield{
+		max-width: 40px;
+	}
+	.time{
+		max-width: 40px
+	}
+	.weight{
+		max-width: 70px
+	}
+	.targa{
+		max-width: 80px
+	}
+	.note{
+		width: 400px;
+	}

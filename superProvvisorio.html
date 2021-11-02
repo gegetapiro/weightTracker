@@ -1,0 +1,543 @@
+
+About UsContact UsPrivacy PolicySign Up for Our Free Newsletter!
+Best Tech Blog For Programming Articles And Video Tutorials
+
+ 
+PHP
+NodeJS
+Python
+Database
+JavaScript
+Java
+General
+jQuery AJAX example with php MySQL – download source code
+October 15, 2016 JavaScript, jQuery, MySQL, PHP 18 Comments
+
+Spread the love
+Last updated:26th April, 2021
+jQuery AJAX example with php MySQL
+jQuery and Ajax are buzzwords now a days in web development community and it is a must have skill for a web developer. In this tutorial we are going to explore  jQuery AJAX example with php  MySQL and how we can send an AJAX get request using jQuery to fetch data from MySQL database server.  Let us explore what is Ajax and why it is so popular with jQuery and see how we can perform an AJAX GET request to get data from server.
+
+
+ 
+jquery ajax example with php mysql
+Why is AJAX and jQuery are important?
+AJAX stands for Asynchronous JavaScript and XML.  It uses XMLHttpRequest object to communicate with Server. It can send to server and receive data from server in different formats like JSON, XML, HTML or Text asynchronously, that prevents whole page from refreshing.
+
+jQuery is a light weight JavaScript library  and has wide range of plugins available for doing different tasks very easily. jQuery hides complexities of plain JavaScript and provides a quick way to perform different tasks. It has several methods that  are used to perform AJAX requests.
+
+jQuery AJAX Methods
+$.ajax – This method performs an asynchronous request.
+
+$.get – This method performs HTTP AJAX GET request.
+
+
+ 
+$.getJSON – This method get JSON encoded data using AJAX HTTP GET request
+
+
+ 
+$.post – This method load data from server using AJAX HTTP POST request.
+
+
+
+Perform a AJAX GET request to get data from server
+Using jQuery,  AJAX GET request can fetch data from server. The task we are going to do is fetch users from MySQL database using jQuery AJAX.
+
+ 
+
+1. Create a MySQL table and insert data
+2. Create HTML form and jQuery script to perform AJAX GET Request to PHP MySQL Server
+
+3. Write a PHP script to receive request from client and fetch data from MySQL database and send a JSON encoded result to client
+
+1. Create MySql database and table using PHPMyAdmin
+1. Create a MySQL database : dbusers
+2. Create a table in database : users
+
+3. Insert data into the table
+
+ 
+
+create DATABASE dbusers;
+CREATE TABLE IF NOT EXISTS users ( id int(11) NOT NULL,
+first_name varchar(255) NOT NULL,
+last_name varchar(255) NOT NULL,
+email varchar(255) NOT NULL )
+ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ALTER TABLE users ADD PRIMARY KEY (id);
+ALTER TABLE users MODIFY id int(11) NOT NULL AUTO_INCREMENT;
+INSERT INTO users (id, first_name, last_name, email)
+VALUES (NULL, "John", "Doe", "john.doe@example.com"), (NULL, "Mark", "William", "mark.william@example.com");
+HTML and jQuery Code
+
+Now I hope you have already installed PHP, Apache, MySQL on your system using WAMP, XAMPP or MAMP.
+
+Create folder for the project name ajaxjquery inside your root directory.
+2. Create a file index.php inside ajaxjquery directory.
+
+3. Add HTML code that will display a button.
+
+4. When user will click on a button an AJAX request will be posted to PHP MySQL server.
+
+5. PHP MySQL will return JSON encoded result back to client end.
+
+Create Form and button onClick event code
+<html> 
+<head> 
+   <title>AJAX jQuery Example with PHP MySQL</title> 
+   <style type="text/css">
+    body{
+      font-family: Verdana, Geneva, sans-serif;
+    }
+  .container{
+      width: 50%;
+      margin: 0 auto;
+  } 
+ 
+ table, tr, th, td {
+    border: 1px solid #e3e3e3;
+    padding: 10px;
+ }
+ 
+</style> 
+</head> 
+<body>
+ 
+ <div class = "container" > 
+    <h3><u>AJAX jQuery Example with PHP MySQL</u></h3>
+    <p><strong>Click on button to display users records from database</strong></p> 
+    
+    <div id="records"></div> 
+    
+    <p>
+        <input type="button" id = "getusers" value = "Fetch Records" />
+    </p>
+  
+</div> 
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+   
+<script type="text/javascript"> 
+    $(function(){ 
+      $("#getusers").on('click', function(){ 
+      $.ajax({ 
+        method: "GET", 
+        
+        url: "getrecords_ajax.php",
+      }).done(function( data ) { 
+        var result= $.parseJSON(data); 
+        var string='<table width="100%"><tr><th>ID</th><th>ENTER TIME</th><th>EXIT TIME</th><th>FIRST WEIGHT</th><th>LAST WEIGHT</th><th>COMPNY NAME</th><th>NOTE</th><th>COUNTRY NUMBER</th><th>RESULTED WEIGHT</th><tr>';
+ 
+       /* from result create a string of data and append to the div */
+      
+        $.each( result, function( key, value ) { 
+          
+          string += "<tr> <td>"+value['id'] + "</td><td>"+value['first_name']+' '+value['last_name']+'</td>  \
+                    <td>'+value['email']+"</td> </tr>"; 
+              }); 
+             string += '</table>'; 
+          $("#records").html(string); 
+       }); 
+    }); 
+}); 
+</script> 
+</body>
+</html>
+In HTML code we create a button. Button’s onclick method will perform a GET request and will embed the result to a div.
+
+jQuery $function()
+Inside first script tag we called jQuery from jQuery CDN so we can perform an AJAX request.  In second script tag we have a code block inside
+
+$(function(){
+}
+The code above is a jQuery code snippet that make sure the code inside this block executes after whole page is loaded. The next code snippet
+
+jQuery Ajax Code
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  
+   <script type="text/javascript"> 
+       $(function(){ 
+         $("#getusers").on('click', function(){ 
+         $.ajax({ 
+           method: "GET", 
+           
+           url: "getrecords_ajax.php",
+         }).done(function( data ) { 
+           var result= $.parseJSON(data); 
+           var string='<table width="100%"><tr> <th>#</th><th>Name</th> <th>Email</th><tr>';
+    
+          /* from result create a string of data and append to the div */
+         
+           $.each( result, function( key, value ) { 
+             
+             string += "<tr> <td>"+value['id'] + "</td><td>"+value['first_name']+' '+value['last_name']+'</td>  \
+                       <td>'+value['email']+"</td> </tr>"; 
+                 }); 
+                string += '</table>'; 
+             $("#records").html(string); 
+          }); 
+       }); 
+   }); 
+   </script>
+In the script above when a user clicks on the button whose id is  #getusers . An AJAX request is posted to a PHP page named getrecords.php. PHP page returns a JSON Encoded result. Using jQuery’s method $.parseJSON result is decoded and a loop is performed through data array.  Inside loop user information is concatenated inside a table and then all the records are appended to a div using HTML method in jQuery.
+
+PHP code to access records from database
+In this last step we have to create a PHP script that will accept a request and send back JSON encoded result. So following are steps.
+
+1. Connect to MySQL database.
+2. Perform a query after successful connection to database.
+
+3. After query execution encode the results in a JSON array and return back to client.
+
+Database connection
+To connect to MySQL database server we have to provide hostname, username, password and database name to mysqli function. $_POST super global array contains data from client side. On client side if we use method post,  then on server data is inside $_POST super global array and if method in client  form is GET then on server data is inside $_GET super global array.
+
+<?php 
+$host         = "localhost";
+$username     = "root";
+$password     = "";
+$dbname       = "dbusers";
+$result_array = array();
+/* Create connection */
+$conn = new mysqli($host, $username, $password, $dbname);
+/* Check connection  */
+if ($conn->connect_error) {
+     die("Connection to database failed: " . $conn->connect_error);
+}
+/* SQL query to get results from database */
+$sql = "SELECT id, first_name, last_name, email FROM users ";
+$result = $conn->query($sql);
+/* If there are results from database push to result array */
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        array_push($result_array, $row);
+    }
+}
+/* send a JSON encded array to client */
+header('Content-type: application/json');
+echo json_encode($result_array);
+$conn->close();
+?>
+In this article we have explored jQuery’s AJAX GET method to fetch results from Server.
+
+jQuery AJAX Post  method example
+ 
+
+jquery ajax post example with php
+Now we are going to explore jQuery AJAX post method .
+
+1. Create a file postdata.php inside ajaxjquery directory.
+
+2. Add HTML code that will display form fields with a button.
+
+ 
+3. When user fills in the form and clicks on  button an AJAX POST request is sent to  server.
+
+4. After validations data is saved to database.
+
+5. Server returns JSON encoded result back to client.
+
+HTML form and jQuery Code
+<html>
+<head>
+   <title>jQuery AJAX POST Example</title>
+   <style>
+    body{
+       font-family: "Arial Black", Gadget, sans-serif;
+    }
+     #container{
+       text-align: center;
+     }
+    #container table{
+      margin: 0 auto;
+      text-align: left;
+    }
+    .btn {
+      background-color: #008CBA;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    input[type='text'], input[type='email'] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+  .success, .error{
+    width: 20%;
+    border: 1px solid;
+    margin: 10px 0px;
+    padding:15px 10px 15px 50px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    display: inline-block;
+  }
+.success {
+  color: #4F8A10;
+  background-color: #DFF2BF;
+}
+.error {
+  color: #D8000C;
+  background-color: #FFBABA;
+  }
+</style>
+</head>
+<body>
+ <div id = "container" >
+   <h3>jQuery AJAX Post method example with php and MySQL</h3>
+   <p><strong>Please fill in the form and click save.</strong></p>
+   <div id="message"></div>
+    <form name='form1'>
+      <table align = "">
+        <tr><td></td></tr>
+         <tr>
+            <td>
+              <label>First Name:</label>&nbsp;
+            </td>
+            <td>
+              <input type='text' placeholder='First Name' name='first_name' id= 'first_name' required ><br />
+            </td>
+          </tr>
+          <tr>
+            <td>
+                <label>Last Name:</label>&nbsp;
+            </td>
+            <td>
+              <input type='text' placeholder='Last Name' name='last_name' id='last_name' required ><br />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Email:</label>&nbsp;
+            </td>
+            <td>
+              <input type='email' name='email' placeholder='Email' id='email' required ><br />
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>
+              <input class='btn' type="button" id = "saveusers" value = "Save" />
+            </td>
+          </tr>
+        </table>
+    </form>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script type="text/javascript">
+    $(function(){
+        $("#saveusers").on('click', function(){
+            var first_name  = $("#first_name").val();
+            var last_name   = $("#last_name").val();
+            var email       = $("#email").val();
+            $.ajax({
+              method: "POST",
+              url:    "saverecords_ajax.php",
+              data: { "first_name": first_name, "last_name": last_name, "email": email},
+             }).done(function( data ) {
+                var result = $.parseJSON(data);
+                var str = '';
+                var cls = '';
+                if(result == 1) {
+                  str = 'User record saved successfully.';
+                  cls = 'success';
+                }else if( result == 2) {
+                  str = 'All fields are required.';
+                  cls = 'error';
+                }else if( result == 3) {
+                  str = 'Enter a valid email address.';
+                  cls = 'error';
+                }else{
+                  str = 'User data could not be saved. Please try again';
+                  cls = 'error';
+                }
+              $("#message").show(3000).html(str).addClass('success').hide(5000);
+          });
+       });
+     });
+  </script>
+</body>
+</html>
+ 
+
+HTML form explanation
+In the  form tag we have created text boxes for first_name, last_name and email. New HTML5 attributes such as placehoder (Used to show a text to user inside text filed, This text disappears as  user starts typing) and required (Used to validate so field is not empty) are used.
+
+In HTML5 some new elements are also introduced like email. Email type will force user to enter a valid email address.
+
+jquery ajax post method example - html form
+jQuery code explanation
+Below the form code there is <script> tag to include jQuery. In next <script> there is a function that executes on onclick event of button with id saveusers.
+
+We are using .on function of jQuery that has two arguments.
+
+1. event (click)
+
+2. callback function. When user will click on button, callback function executes. In function get values of first name, last name and email using  val() function in jQuery and save in variables.
+
+$.AJAX function and validation
+In $.ajax function we specify method to send data as POST, URL  of PHP script and data to post.  In .done function we check the response sent by server. Based on server response  create a message , change color of text to red using jQuery’s .css function and then show it to user using .html function.
+
+PHP server side code to save data to MySQL database
+We create a connection to MySQL server, get data from client side and finally after validations, save data to database. In newer PHP versions mysql_* functions are deprecated.
+
+Now mysqli or PDO functions are used, these newer functions provide prepared statements for preventing sql injection attacks.
+
+Data validation
+We have to perform server side validation as well. If any of the text box in form was empty, we have to show user an error message by sending $result value as 2, We create an  prepared statement  for insert and bind the parameters. After query execution success result is sent back to client end.
+
+Insert data to database using jQuery ajax post
+<?php
+$host         = "localhost";
+$username     = "root";
+$password     = "";
+$dbname       = "dbusers";
+$result = 0;
+/* Create connection */
+$conn = new mysqli($host, $username, $password, $dbname);
+/* Check connection */
+if ($conn->connect_error) {
+     die("Connection to database failed: " . $conn->connect_error);
+}
+/* Get data from Client side using $_POST array */
+$fname  = $_POST['first_name'];
+$lname  = $_POST['last_name'];
+$email  = $_POST['email'];
+/* validate whether user has entered all values. */
+if(!$fname || !$lname || !$email){
+  $result = 2;
+}elseif (!strpos($email, "@") || !strpos($email, ".")) {
+  $result = 3;
+}else {
+   //SQL query to get results from database
+   $sql    = "insert into users (first_name, last_name, email) values (?, ?, ?)  ";
+   $stmt   = $conn->prepare($sql);
+   $stmt->bind_param('sss', $fname, $lname, $email);
+   if($stmt->execute()){
+     
+        $result = 1;
+     
+   }
+}
+echo $result;
+$conn->close();
+Summary
+To summarize in this tutorial we learned about jQuery AJAX and how to perform GET and POST requests to server.
+
+Source code for jQuery AJAX Get method
+Click here to clone or download example source code for jQuery AJAX GET example From GitHub.
+
+Jquery ajax get method example with php and mysql
+Source code for jQuery AJAX POST method
+You can download or clone jQuery AJAX POST method source code from GitHub repository.
+
+Jquery ajax get method example with php and mysql
+Please leave your comments and feedback below. To keep yourself updated please subscribe to our newsletter.
+
+Learning Resources
+Best Seller PHP Course
+PHP for Beginners – Become a PHP Master – CMS Project
+
+
+
+PHP for Beginners: learn everything you need to become a professional PHP developer with practical exercises & projects.
+
+Related Articles:
+php mysqli tutorial
+PHP PDO and jQuery Ajax tutorial
+PHP Mongodb tutorial
+Create web services in PHP
+jQuery Drag and Drop to do list
+PHP photo gallery
+Create RESTful web services in CodeIgniter
+ 
+
+Next Article:
+Parse XML using PHP
+ 
+
+ 
+
+ 
+
+ 
+Share
+Check Also
+autocomplete in jquery with php and mysql 
+Autocomplete in jQuery using PHP and MySQL – a beginner tutorial
+Spread the loveLast updated:26th April, 2021Autocomplete in jQuery Modern web applications often use auto suggest …
+
+
+
+Search …
+ 
+Sign Up for Our Free Newsletter!
+Email address: 
+Your email address
+
+
+
+ 
+Find us on Facebook
+
+RecentPopularCommentsTags
+autocomplete in jquery with php and mysql
+Autocomplete in jQuery using PHP and MySQL – a beginner tutorial
+September 4, 2021
+latest web development courses to become a pro developer
+Latest Web Development Courses To Make You Pro Developer
+August 4, 2021
+php mysql beginner tutorial
+User registration tutorial with php and MySQL – beginner’s tutorial
+July 26, 2021
+best wordpress application
+Top WordPress Applications You Need to Know in 2021
+May 11, 2021
+what is virtual reality
+What is Virtual Reality and what are VR Applications?
+May 7, 2021
+Categories
+.Net
+Database
+MongoDB
+MySQL
+Redis
+General
+Agile Softwae Development
+CRM
+Devops
+Digital Marketing
+Freelancing
+Front-end development
+Graphic Design
+UI / UX Designing
+Version Control System
+Virtual Reality
+Java
+JavaScript
+NodeJS
+Sails js
+jQuery
+Mobile App Development
+MySQL
+PHP
+CodeIgniter
+Drupal
+Joomla
+Magento
+WordPress
+Python
+
+ 
+All Rights Reserved 2016 - Programmer Blog

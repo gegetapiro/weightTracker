@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Somma pesi</title>
+		<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+		<script src="jquery.js"></script>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+					<div class="col-25">
+						<label for="dataora">Data accesso</label>
+					</div>
+						<div class="col-75">
+								<input type="text" name="dataora" id="dataora" placeholder="inserisci data" />
+						</div>
+				</div>
+										<button name="now" id="now">Inserisci data e ora attuale</button>
+		 	<div class="row">
+					<div class="col-25">
+						<label for="firstweight">Primo peso</label>
+					</div>
+					<div class="col-75">
+										<input type="text" name="firstweight" id="firstweight" placeholder="inserisci primo peso" />
+					</div>			
+			</div>	
+			<div class="row">
+				<div class="col-25">
+						<label for="secondweight">Secondo peso</label>
+				</div>	
+				<div class="col-75">		
+										<input type="text" name="secondweight" id="secondweight" placeholder="inserisci secondo peso" />
+				</div>					
+			</div>	
+			<div class="row">
+				<div class="col-25">
+						<label for="entertime">Ora entrata</label>
+				</div>	
+					<div class="col-75">					
+										<input type="text" name="entertime" id="entertime" placeholder="inserisci ora ingresso" />
+					</div>
+			</div>	
+			<div class="row">
+				<div class="col-25">
+						<label for="exittime">Ora uscita</label>
+					</div>	
+					<div class="col-75">					
+										<input type="text" name="exittime" id="exittime" placeholder="inserisci orauscita" />
+					</div>				
+			</div>
+			<div class="row">
+				<div class="col-25">
+						<label for="companyname">Nome azienda</label>
+					</div>
+					<div class="col-75">
+										<input type="text" name="companyname" id="companyname" placeholder="inserisci nome azienda" />
+					</div>					
+			</div>	
+			<div class="row">
+				<div class="col-25">
+						<label for="note">Note</label>
+					</div>	
+					<div class="col-75">					
+										<input type="text" name="note" id="note" placeholder="inserisci note" />
+					</div>					
+			</div>	
+			<div class="row">
+				<div class="col-25">
+						<label for="targa">Targa mezzo</label>
+				</div>	
+				<div class="col-75">					
+										<input type="text" name="targa" id="targa" placeholder="inserisci targa" />
+				</div>						
+			</div>	
+			<div class="row">
+				<div class="col-25">
+						<label for="result">Peso netto</label>
+				</div>	
+				<div class="col-75">					
+										<input type="text" name="result" id="result" />
+				</div>						
+			</div>							
+										<button name="start" id="start">CALCOLA IL NETTO</button>
+										<button name="datasave" id="datasave">SALVA I DATI</button>
+										<br /><br /><br /><br /><br /><br /><br />
+			<div class="row">
+				<div class="col-25">
+						<label for="response">Esito</label>
+				</div>
+				<div class="col-75">
+										<input type="text" name="response" id="response"  />
+				</div>
+			</div>							
+</div>
+
+		<script>
+				$(document).ready(function(){
+					$("#now").click(function(){
+						var adesso = new Date();
+						var mese = adesso.getMonth() + 1;
+						var giorno = adesso.getDate();
+						var anno = adesso.getFullYear();
+						var output = (giorno < 10 ? '0' : '') + giorno  + '/' + (mese < 10 ? '0' : '') + mese + '/' + anno  ;
+						 $("#dataora").val(output);
+						 var ora = adesso.getHours() + ":" + adesso.getMinutes();
+						 $("#entertime").val(ora);
+						 
+					});
+					$("#start").click(function(){
+								let firstval = $("#firstweight").val();   
+								let secondval = $("#secondweight").val();
+								let entrytime = $("#entertime").val();
+								let exittime = $("#exittime").val();
+								let companyname = $("#companyname").val();
+								let note = $("#note").val();
+								let targa = $("#targa").val();
+								let tot = parseInt(secondval) - parseInt(firstval);
+								if(isNaN(tot)) {
+									alert("non  un numero");
+									}else{
+										$("#result").val(tot);	
+										$.ajax({
+											method: "POST",
+											url: "insert.php",
+											dataType: "JSON",
+											data: "firstweight=" + firstval + "&secondweight=" + secondval + "&entrytime=" + entrytime 
+											+ "&exittime=" + exittime + "&companyname=" + companyname + "&note=" + note + "&targa=" + targa + "&resultweight=" + tot,
+											succes: function(backmessage){
+												//alert("andata " + backmessage);
+												$("#response").val(backmessage.text);
+											},
+											error: function(msg) {
+                                    //console.log("fallimento " + msg.responseText);
+                                    $("#response").val(msg);;
+                                }
+											
+										});
+										
+										
+									}
+						});
+					
+					
+					});
+			</script>
+			</div>
+	</body>
+</html>
