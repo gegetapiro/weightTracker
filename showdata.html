@@ -14,7 +14,6 @@
 
 
 			function visualizza(che){
-				alert("va visualizza " + che);
 				var enter = $("#1").val();
 				var exit = $("#2").val();
 				var weight1 = $("#3").val();
@@ -26,7 +25,8 @@
 				$.ajax({
 					method: "POST",
 					url: "dataupdate.php",
-					data: {enter: enter, exit: exit, 
+					data: {
+						enter: enter, exit: exit, 
 						weight1: weight1, 
 						weight2: weight2,
 						company: company,
@@ -35,7 +35,7 @@
 						whattaid: che
 					}
 				}).done(function(dataedit){
-					alert(dataedit);
+					location.reload();
 				})
 			}
 			function deleterecord(wichrecord){
@@ -45,14 +45,13 @@
 						data:{whichid: wichrecord}
 
 					}).done(function(data){
-						alert(data);
-						location.reload();
+					location.reload();
 					});
 						
 					
 			}
 			function showalert(whatta){
-				alert("va showalert" + whatta);
+			//	alert("va showalert" + whatta);
 
 					$.ajax({
 
@@ -67,7 +66,7 @@
 						var datipresi = jQuery.parseJSON(datirow);
 						
 						$("#onerow").html(
-							"<table id='onerowtab'><tr><td><input type='number' id='idfield' value='" +
+							"<table id='onerowtab'><tr><th>ID</th><th>ENTER TIME</th><th>EXIT TIME</th><th>FIRST WEIGHT</th><th>LAST WEIGHT</th><th>COMPANY NAME</th><th>NOTE</th><th>COUNTRY NUMBER</th><th>RESULTED WEIGHT</th><th>SAVE</th></tr><tr><td><input type='number' id='idfield' value='" +
 							datipresi[0] +  "' disabled /></td><td><input type='text' id='1' class='time' value='" + datipresi[1] + "'/></td><td><input type='text' id='2' class='time' value='" + datipresi[2]
 							+ "'/></td><td><input type='text' id='3' class='weight' value='" +
 						+ datipresi[3] + "'/></td><td><input type='text' id='4' class='weight' value='" + datipresi[4] + "'/></td><td><input type='text' id='5' value='" + datipresi[5]  + "'/></td><td><input type='text' id='6' class='note' value='" + datipresi[6]
@@ -87,7 +86,7 @@
 					url: "getdata.php",
 				}).done(function(data){
 				var result= $.parseJSON(data);
-        var string='<table class="wtable"><tr><th>ID</th><th>ENTER TIME</th><th>EXIT TIME</th><th>FIRST WEIGHT</th><th>LAST WEIGHT</th><th>COMPANY NAME</th><th>NOTE</th><th>COUNTRY NUMBER</th><th>RESULTED WEIGHT</th><tr>';
+        var string='<table class="wtable"><tr><th>ID</th><th>ENTER TIME</th><th>EXIT TIME</th><th>FIRST WEIGHT</th><th>LAST WEIGHT</th><th>COMPANY NAME</th><th>NOTE</th><th>COUNTRY NUMBER</th><th>RESULTED WEIGHT</th><th>EDIT</th><th>DELETE</th><tr>';
 
        /* from result create a string of data and append to the div */
 
@@ -100,6 +99,6 @@
 				});
 			});
 		</script>
-		<div id="onerow">prova qui</div>
+		<div id="onerow"></div>
 	</body>
 </html>

@@ -2,7 +2,7 @@
 echo "Hello World";
 include "datacon.php";
 if(!$conn = mysqli_connect($host, $user, $password, $db)){
-	echo "connesione fallita " . mysqli_error();
+	echo "connesione fallita ";
 }
 echo "connessione ok";
 

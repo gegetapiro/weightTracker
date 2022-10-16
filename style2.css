@@ -34,11 +34,19 @@
 	} */
 
 	#onerowtab tr td {
+		background-color: burlywood;
 		border-style: solid;
 		border-width: 1px;
 		border-color: black;
 		padding: 6px;
 		padding: 3px;
+	}
+	#onerowtab th {
+		font-size: 12px;
+		background-color: rgba(180, 200, 240, 0.5);
+		border-style: solid;
+		border-color: #7c7b7b;
+		border-width: 1px;
 	}
 	#idfield{
 		max-width: 40px;

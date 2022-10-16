@@ -13,9 +13,9 @@
         $targa = $_POST["targa"];
         $resultedweight = $lastweight - $firstweight;
         $id = $_POST["whattaid"];
-        $query = "UPDATE pesi SET entertime = $entertime, exittime = $exitime, 
-        firstweight = $firstweight, lastweight = $lastweight, companyname = '$companyname',
-         note = '$note', targa = '$targa', resultedweight = $resultedweight WHERE id = $id";
+        $query = "UPDATE pesi SET entertime = '" .  $entertime . "', exittime = '" .  $exitime ."', 
+        firstweight =" .  $firstweight . ", lastweight = " . $lastweight . ", companyname = '" . $companyname . "',
+         note = '" . $note . "', targa = '" . $targa . "', resultedweight = " . $resultedweight . " WHERE id = " . $id;
         if(@ $con->query($query)===true){
             echo "record " . $id . " aggiornato con successo";
         }else{
